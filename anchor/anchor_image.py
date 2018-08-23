@@ -37,7 +37,7 @@ class AnchorImage(object):
                     out = []
                     for i, path in enumerate(paths):
                         if i % 100 == 0:
-                            print i
+                            print(i)
                         out.append(transform_img(path))
                     return out
                 transform_img_fn = transform_imgs
@@ -62,7 +62,7 @@ class AnchorImage(object):
         n_features = len(features)
 
         true_label = np.argmax(classifier_fn(np.expand_dims(image, 0))[0])
-        print 'True pred', true_label
+        print('True pred', true_label)
 
         def lime_sample_fn(num_samples, batch_size=50):
             # data = np.random.randint(0, 2, num_samples * n_features).reshape(
@@ -71,7 +71,7 @@ class AnchorImage(object):
             labels = []
             imgs = []
             sizes = np.random.randint(0, n_features, num_samples)
-            all_features = range(n_features)
+            all_features = list(range(n_features))
             # for row in data:
             for i, size in enumerate(sizes):
                 row = np.ones(n_features)
@@ -117,7 +117,7 @@ class AnchorImage(object):
                     [0, 1], num_samples * n_features, p=[.8, .2]).reshape(
                         (num_samples, n_features))
             data[:, present] = 1
-            chosen = np.random.choice(range(len(self.dummys)), data.shape[0],
+            chosen = np.random.choice(list(range(len(self.dummys))), data.shape[0],
                                       replace=True)
             labels = []
             imgs = []

@@ -1,5 +1,5 @@
 """Base anchor functions"""
-from __future__ import print_function
+
 import numpy as np
 import operator
 import copy
@@ -71,7 +71,7 @@ class AnchorBaseBeam(object):
             n_samples[f] += 1
             positives[f] += sample_fns[f](1)
         if n_features == top_n:
-            return range(n_features)
+            return list(range(n_features))
         means = positives / n_samples
         t = 1
 
@@ -116,7 +116,7 @@ class AnchorBaseBeam(object):
     def make_tuples(previous_best, state):
         # alters state, computes support for new tuples
         normalize_tuple = lambda x: tuple(sorted(set(x)))  # noqa
-        all_features = range(state['n_features'])
+        all_features = list(range(state['n_features']))
         coverage_data = state['coverage_data']
         current_idx = state['current_idx']
         data = state['data'][:current_idx]
@@ -171,7 +171,7 @@ class AnchorBaseBeam(object):
             raw_data, data, labels = sample_fn(list(t), n)
             current_idx = state['current_idx']
             # idxs = range(state['data'].shape[0], state['data'].shape[0] + n)
-            idxs = range(current_idx, current_idx + n)
+            idxs = list(range(current_idx, current_idx + n))
             state['t_idx'][t].update(idxs)
             state['t_nsamples'][t] += n
             state['t_positives'][t] += labels.sum()

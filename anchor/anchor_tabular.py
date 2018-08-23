@@ -99,7 +99,7 @@ class AnchorTabularExplainer(object):
         """
         train = self.train if not validation else self.validation
         d_train = self.d_train if not validation else self.d_validation
-        idx = np.random.choice(range(train.shape[0]), num_samples,
+        idx = np.random.choice(list(range(train.shape[0])), num_samples,
                                replace=True)
         sample = train[idx]
         d_sample = d_train[idx]
@@ -209,10 +209,10 @@ class AnchorTabularExplainer(object):
         this_dir, _ = os.path.split(__file__)
         bundle = open(os.path.join(this_dir, 'bundle.js'), encoding='utf8').read()
         random_id = 'top_div' + id_generator()
-        out = u'''<html>
+        out = '''<html>
         <meta http-equiv="content-type" content="text/html; charset=UTF8">
         <head><script>%s </script></head><body>''' % bundle
-        out += u'''
+        out += '''
         <div id="{random_id}" />
         <script>
             div = d3.select("#{random_id}");
@@ -225,7 +225,7 @@ class AnchorTabularExplainer(object):
                             explanation=jsonize(exp_map['explanation']),
                             raw_data=jsonize(exp_map['rawData']),
                             explanation_type=jsonize(exp_map['explanationType']))
-        out += u'</body></html>'
+        out += '</body></html>'
         return out
 
 

@@ -22,7 +22,7 @@ class Bunch(object):
 def map_array_values(array, value_map):
     # value map must be { src : target }
     ret = array.copy()
-    for src, target in value_map.items():
+    for src, target in list(value_map.items()):
         ret[ret == src] = target
     return ret
 def replace_binary_values(array, values):
@@ -114,14 +114,14 @@ def load_dataset(dataset_name, balance=False, discretize=True, dataset_folder='.
         }
         dataset = load_csv_dataset(
             os.path.join(dataset_folder, 'diabetes/diabetic_data.csv'), -1, ',',
-            features_to_use=range(2, 49),
+            features_to_use=list(range(2, 49)),
             categorical_features=categorical_features, discretize=discretize,
             balance=balance, feature_transformations=transformations)
     elif dataset_name == 'default':
         categorical_features = [2, 3, 4, 6, 7, 8, 9, 10, 11]
         dataset = load_csv_dataset(
                 os.path.join(dataset_folder, 'default/default.csv'), -1, ',',
-                features_to_use=range(1, 24),
+                features_to_use=list(range(1, 24)),
                 categorical_features=categorical_features, discretize=discretize,
                 balance=balance)
     elif dataset_name == 'recidivism':
@@ -224,7 +224,7 @@ def load_csv_dataset(data, target_idx, delimiter=',',
         data = data[1:]
     if filter_fn is not None:
         data = filter_fn(data)
-    for feature, fun in feature_transformations.items():
+    for feature, fun in list(feature_transformations.items()):
         data[:, feature] = fun(data[:, feature])
     labels = data[:, target_idx]
     le = sklearn.preprocessing.LabelEncoder()
@@ -267,7 +267,7 @@ def load_csv_dataset(data, target_idx, delimiter=',',
         data = disc.discretize(data)
         ordinal_features = [x for x in range(data.shape[1])
                             if x not in categorical_features]
-        categorical_features = range(data.shape[1])
+        categorical_features = list(range(data.shape[1]))
         categorical_names.update(disc.names)
     for x in categorical_names:
         categorical_names[x] = [y.decode() if type(y) == np.bytes_ else y for y in categorical_names[x]]
